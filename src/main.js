@@ -1,20 +1,15 @@
-import Vue from "vue";
-import VueCesium from 'vue-cesium';
-import 'vue-cesium/lib/vc-navigation.css';
-import { MdSwitch } from 'vue-material/dist/components';
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default.css';
-import lang from 'vue-cesium/lang/zh-hans';
-import App from "./App.vue";
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false
 
-Vue.use(VueCesium, {
-  lang: lang // 2.0.3+ //  zh-hans
-});
-
-Vue.use(MdSwitch);
-
+/* eslint-disable no-new */
 new Vue({
-  render: h => h(App)
-}).$mount("#app");
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})

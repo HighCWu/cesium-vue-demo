@@ -4,6 +4,7 @@
       ref="vcViewer"
       :animation="animation"
       :baseLayerPicker="baseLayerPicker"
+      :geocoder="geocoder"
       :timeline="timeline"
       :fullscreenButton="fullscreenButton"
       :fullscreenElement="fullscreenElement"
@@ -11,11 +12,13 @@
       @ready="ready"
     >
       <vc-navigation></vc-navigation>
-      <vc-layer-imagery>
+      <!-- <vc-layer-imagery>
         <vc-provider-imagery-tianditu mapStyle="img_c" :token="tk"></vc-provider-imagery-tianditu>
       </vc-layer-imagery>
       <vc-layer-imagery ref="layerText">
         <vc-provider-imagery-tianditu mapStyle="cia_c" :token="tk"></vc-provider-imagery-tianditu>
+      </vc-layer-imagery> -->
+      <vc-layer-imagery :imageryProvider="imageryProvider">
       </vc-layer-imagery>
     </vc-viewer>
     <div class="demo-tool">
@@ -39,7 +42,9 @@ export default {
     return {
       animation: true,
       timeline: true,
+      imageryProvider: {},
       baseLayerPicker: false,
+      geocoder: false,
       fullscreenButton: true,
       infoBox: true,
       fullscreenElement: document.body,
@@ -47,13 +52,18 @@ export default {
     };
   },
   mounted() {
-    this.$refs.vcViewer.createPromise.then(({ Cesium, viewer }) => {
-      console.log("viewer is loaded.");
-    });
+    // this.$refs.vcViewer.createPromise.then(({ Cesium, viewer }) => {
+    //   console.log("viewer is loaded.");
+    // });
   },
   methods: {
     ready(cesiumInstance) {
       const { Cesium, viewer } = cesiumInstance;
+      this.imageryProvider = new Cesium.TileMapServiceImageryProvider({
+        url : Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII')
+      }),
+      this.baseLayerPicker = false;
+      this.geocoder = false;
       viewer.scene.globe.depthTestAgainstTerrain = true;
       viewer.scene.globe.enableLighting = true;
       this.fullscreenElement = this.$refs.viewerContainer;
